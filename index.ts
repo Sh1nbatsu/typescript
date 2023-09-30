@@ -1,43 +1,14 @@
-function greeting(name: string) {
-  return `Hello, ${name}`;
-}
+// Анонимные функции, таким функциям не требуется жесткая типизация, типы берутся из контекста
+// Вызываются эти функции так же, как и стрелочные, и выполняются сразу же
 
-console.log(greeting("Oleg"));
+const cars = ["audi", "bmw", "mazda", "honda"];
 
-// console.log(greeting())
-// Ошибка, нужен один агрумент - получено ноль
+const toUpperCars = cars.map((name) => name.toUpperCase());
 
-// Добавление необязательных переменных к функции
+console.log(toUpperCars);
 
-function greetingUnness(name?: string) {
-  return `Hello, ${name}`;
-}
+// Если функция определяется вне контекста, то ей все так же нужно будет задавать типы для агрументов
 
-console.log(greetingUnness());
-console.log(greetingUnness("Oleg"));
+const toUpper = (name: string): string => name.toUpperCase();
 
-// Добавление необязательных параметров и дефолт
-
-function greetingDefault(name?: string) {
-  return `Hello, ${name ? name : "Default"}`;
-}
-
-console.log(greetingDefault());
-console.log(greetingDefault("Oleg"));
-
-// Значение по умолчанию
-
-function getGreeting(name = "Default") {
-  return `Hello, ${name}`;
-}
-
-console.log(getGreeting());
-console.log(greeting("olegs"));
-
-// Тип возвращаемого значения
-
-function getGreetingPhrase(name: string): string {
-  return `Hellom, ${name}`;
-}
-
-console.log(getGreetingPhrase("Lisa"));
+const upperCars = cars.map(toUpper);
