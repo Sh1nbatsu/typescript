@@ -1,14 +1,42 @@
-// Анонимные функции, таким функциям не требуется жесткая типизация, типы берутся из контекста
-// Вызываются эти функции так же, как и стрелочные, и выполняются сразу же
+// Обозначение массивов в typescript
 
-const cars = ["audi", "bmw", "mazda", "honda"];
+const fruits: string[] = ["banana", "apple", "pear"];
 
-const toUpperCars = cars.map((name) => name.toUpperCase());
+function toUpperArray(items: string[]): string[] {
+  return items.map((item) => item.toUpperCase());
+}
 
-console.log(toUpperCars);
+// Фильтр анаграмм
 
-// Если функция определяется вне контекста, то ей все так же нужно будет задавать типы для агрументов
+function strToObj(str: string): Record<string, number> {
+  const initStr: Record<string, number> = {};
+  for (let i = 0; i < str.length; i++) {
+    const currLetter: string = str[i];
+    if (!initStr[currLetter]) {
+      initStr[currLetter] = 1;
+    } else {
+      initStr[currLetter] += 1;
+    }
+  }
+  return initStr;
+}
 
-const toUpper = (name: string): string => name.toUpperCase();
+function filterAnagrams(word: string, words: string[]): string[] {
+  const res: string[] = [];
+  const inObj = strToObj(word);
+  words.forEach((item) => {
+    const initObj = {...inObj}
+    if (word.length !== item.length) return;
 
-const upperCars = cars.map(toUpper);
+    for (let i = 0; i < item.length; i++) {
+      const letter = item[i];
+      // if (!initObj[letter] || --initObj[letter] === -1) return;
+      // if (!(--initObj[letter] >= 0)) return;
+      if (!(initObj[letter]-- > 0)) return;
+    }
+    res.push(item);
+  });
+  return res;
+}
+
+console.log(filterAnagrams("abba", ["bbaa", "aabb", "adda", "aaab"]));
