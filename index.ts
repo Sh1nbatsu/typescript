@@ -1,42 +1,38 @@
-// Обозначение массивов в typescript
+// Тип: { firstName: string, pointsCount: number }
+const user = {
+  firstName: "Mike",
+  pointsCount: 1000,
+};
 
-const fruits: string[] = ["banana", "apple", "pear"];
+// Поменять тип свойств нельзя
+// Type 'number' is not assignable to type 'string'.
+// user.firstName = 7;
 
-function toUpperArray(items: string[]): string[] {
-  return items.map((item) => item.toUpperCase());
-}
+// TypeScript не позволяет обращаться к несуществующим свойствам. Это значит, что структура любого объекта должна быть задана при его инициализации:
 
-// Фильтр анаграмм
+// Свойства в описании типа разделяются через запятую (,)
+// function doSomething(user: { firstName: string, pointsCount: number }) {
+//   // ...
+// }
 
-function strToObj(str: string): Record<string, number> {
-  const initStr: Record<string, number> = {};
-  for (let i = 0; i < str.length; i++) {
-    const currLetter: string = str[i];
-    if (!initStr[currLetter]) {
-      initStr[currLetter] = 1;
-    } else {
-      initStr[currLetter] += 1;
-    }
+// firstName может быть undefined
+// pointsCount может быть null
+// function doSomething(user: { firstName?: string, pointsCount: number | null }) {
+//   // ...
+// }
+
+// Реализуйте функцию isComplete(), которая принимает на вход курс и определяет, завершен ли он. Завершенным считается курс, в который добавлено четыре или более уроков:
+
+function isComplete(course: { name: string; lessons: string[] }) {
+  if (course.lessons.length <= 3) {
+    return false;
   }
-  return initStr;
+  return true;
 }
 
-function filterAnagrams(word: string, words: string[]): string[] {
-  const res: string[] = [];
-  const inObj = strToObj(word);
-  words.forEach((item) => {
-    const initObj = {...inObj}
-    if (word.length !== item.length) return;
+const course = {
+  name: "Java",
+  lessons: ["variables", "functions", "conditions"],
+};
 
-    for (let i = 0; i < item.length; i++) {
-      const letter = item[i];
-      // if (!initObj[letter] || --initObj[letter] === -1) return;
-      // if (!(--initObj[letter] >= 0)) return;
-      if (!(initObj[letter]-- > 0)) return;
-    }
-    res.push(item);
-  });
-  return res;
-}
-
-console.log(filterAnagrams("abba", ["bbaa", "aabb", "adda", "aaab"]));
+console.log(isComplete(course));

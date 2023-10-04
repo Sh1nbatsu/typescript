@@ -1,49 +1,32 @@
-// Обозначение массивов в typescript
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
+// Тип: { firstName: string, pointsCount: number }
+var user = {
+    firstName: "Mike",
+    pointsCount: 1000,
 };
-var fruits = ["banana", "apple", "pear"];
-function toUpperArray(items) {
-    return items.map(function (item) { return item.toUpperCase(); });
-}
-// Фильтр анаграмм
-function strToObj(str) {
-    var initStr = {};
-    for (var i = 0; i < str.length; i++) {
-        var currLetter = str[i];
-        if (!initStr[currLetter]) {
-            initStr[currLetter] = 1;
-        }
-        else {
-            initStr[currLetter] += 1;
-        }
+// Поменять тип свойств нельзя
+// Type 'number' is not assignable to type 'string'.
+// user.firstName = 7;
+// TypeScript не позволяет обращаться к несуществующим свойствам. Это значит, что структура любого объекта должна быть задана при его инициализации:
+// Свойства в описании типа разделяются через запятую (,)
+// function doSomething(user: { firstName: string, pointsCount: number }) {
+//   // ...
+// }
+// firstName может быть undefined
+// pointsCount может быть null
+// function doSomething(user: { firstName?: string, pointsCount: number | null }) {
+//   // ...
+// }
+// Реализуйте функцию isComplete(), которая принимает на вход курс и определяет, завершен ли он. Завершенным считается курс, в который добавлено четыре или более уроков:
+function isComplete(course) {
+    if (course.lessons.length <= 3) {
+        return false;
     }
-    return initStr;
-}
-function filterAnagrams(word, words) {
-    var res = [];
-    var inObj = strToObj(word);
-    words.forEach(function (item) {
-        var initObj = __assign({}, inObj);
-        if (word.length !== item.length)
-            return;
-        for (var i = 0; i < item.length; i++) {
-            var letter = item[i];
-            // if (!initObj[letter] || --initObj[letter] === -1) return;
-            // if (!(--initObj[letter] >= 0)) return;
-            if (!(initObj[letter]-- > 0))
-                return;
-        }
-        res.push(item);
-    });
-    return res;
-}
-console.log(filterAnagrams("abba", ["bbaa", "aabb", "adda", "aaab"]));
+    return true;
+};
+
+var course = {
+    name: "Java",
+    lessons: ["variables", "functions", "conditions"],
+};
+
+console.log(isComplete(course));
